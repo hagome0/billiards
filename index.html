@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <title></title>
+</head>
+<body>
+<style>
+    #canv{
+        height: 30px;
+    }
+
+    #player_change {
+        float: left;
+        height: 30px;
+        margin-right: 5px;
+        margin-bottom: 10px;
+    }
+
+    #hit_button {
+        float: left;
+        height: 30px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+    }
+
+    #myProgress {
+        float: left;
+        position: relative;
+        width: 400px;
+        height: 30px;
+        background-color: #ddd;
+        margin-bottom: 10px;
+    }
+
+    #myBar {
+        position: absolute;
+        width: 0%;
+        height: 100%;
+        background-color: #4CAF50;
+        margin-bottom: 10px;
+    }
+
+    #label {
+        text-align: center;
+        line-height: 30px;
+        color: white;
+        margin-bottom: 10px;
+    }
+
+    span {
+        float: left;
+        color: lightgrey;
+        line-height: 30px;
+        font-size: 35px;
+        font-weight: bold;
+        margin-left: 50px;
+    }
+
+</style>
+
+<div id="container">
+
+    <button id="player_change">Player Change</button>
+    <div id="myProgress">
+        <div id="myBar">
+            <div id="label">0%</div>
+        </div>
+    </div>
+
+    <button id="hit_button" style="width :100pt;">HIT BALL</button>
+    <span id="p1" style="color:dodgerblue"> Player1: 0</span> <span style="color:red">vs</span> <span id="p2">Player2: 0</span>
+
+    <div id = "canv">
+        <canvas>
+        </canvas>
+    </div>
+
+    <audio style="position: absolute; right:0; bottom: 0;" src="bgm.mp3" autoplay controls></audio>
+
+    <script src="example.js"></script>
+    <script src="event.js"></script>
+
+</div>
+</body>
+</html>
