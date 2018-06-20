@@ -1,3 +1,4 @@
+var help = document.getElementById("help_button");
 var hit = document.getElementById("hit_button");
 var player = document.getElementById("player_change");
 var elem = document.getElementById("myBar");
@@ -26,16 +27,16 @@ var canvas = document.querySelector('canvas'),
     refreshHz = 60,
     velocityCutoff = 0.01,
     bounceLoss = .85,
-    que,
+    cue,
     tableFriction = 0.00003;
 canvas.width = w;
 canvas.height = h;
 var power = 0;
 xlocations = [180, 20, 200, 240],
     ylocations = [400, 275, 200, 240];
-nowPlayer=0;
+nowPlayer = 0;
 shootend = false;
-var scoreinfo = [0,0];
+var scoreinfo = [0, 0];
 
 
 window.requestAnimFrame = (function () {
@@ -55,6 +56,7 @@ window.onload = function () {
     player.addEventListener('click', playerChange, false);
     hit.addEventListener('mousedown', startGauge, false);
     hit.addEventListener('mouseup', stopGauge, false);
+    help.addEventListener('mousedown', help_alert, false);
 
     document.addEventListener("keydown", keyEvent1);
     document.addEventListener("keyup", keyEvent2);
@@ -62,7 +64,7 @@ window.onload = function () {
     draw();
 };
 
-var Que = function (ball) {
+var Cue = function (ball) {
     this.x = ball.x + 60;
     this.y = ball.y + 60;
     this.degree = 0;
@@ -71,9 +73,9 @@ var Que = function (ball) {
     this.visible = true;
 }
 
-function draw_que() {
+function draw_cue() {
 
-    if (que.visible) {
+    if (cue.visible) {
         ctx.clearRect(0, 0, w, h);
         table.draw();
         for (var i = 0; i < points; i++) {
@@ -83,15 +85,15 @@ function draw_que() {
             temp.draw(table);
         }
 
-        var degree = que.degree * degreeToRadian;
-        var x1_start = que.x + 40 * Math.cos(degree + degreeToRadian * 5);
-        var x2_start = que.x + 40 * Math.cos(degree - degreeToRadian * 5);
-        var x3_start = que.x + 50 * Math.cos(degree + degreeToRadian * 5);
-        var x4_start = que.x + 50 * Math.cos(degree - degreeToRadian * 5);
-        var y1_start = que.y + 40 * Math.sin(degree + degreeToRadian * 5);
-        var y2_start = que.y + 40 * Math.sin(degree - degreeToRadian * 5);
-        var y3_start = que.y + 50 * Math.sin(degree + degreeToRadian * 5);
-        var y4_start = que.y + 50 * Math.sin(degree - degreeToRadian * 5);
+        var degree = cue.degree * degreeToRadian;
+        var x1_start = cue.x + 40 * Math.cos(degree + degreeToRadian * 5);
+        var x2_start = cue.x + 40 * Math.cos(degree - degreeToRadian * 5);
+        var x3_start = cue.x + 50 * Math.cos(degree + degreeToRadian * 5);
+        var x4_start = cue.x + 50 * Math.cos(degree - degreeToRadian * 5);
+        var y1_start = cue.y + 40 * Math.sin(degree + degreeToRadian * 5);
+        var y2_start = cue.y + 40 * Math.sin(degree - degreeToRadian * 5);
+        var y3_start = cue.y + 50 * Math.sin(degree + degreeToRadian * 5);
+        var y4_start = cue.y + 50 * Math.sin(degree - degreeToRadian * 5);
 
 
         ctx.beginPath();
@@ -102,10 +104,10 @@ function draw_que() {
         ctx.fillStyle = "#f8f6ea";
         ctx.fill();
 
-        var x1_end = que.x + 700 * Math.cos(degree + degreeToRadian * 0.6);
-        var x2_end = que.x + 700 * Math.cos(degree - degreeToRadian * 0.6);
-        var y1_end = que.y + 700 * Math.sin(degree + degreeToRadian * 0.6);
-        var y2_end = que.y + 700 * Math.sin(degree - degreeToRadian * 0.6);
+        var x1_end = cue.x + 700 * Math.cos(degree + degreeToRadian * 0.6);
+        var x2_end = cue.x + 700 * Math.cos(degree - degreeToRadian * 0.6);
+        var y1_end = cue.y + 700 * Math.sin(degree + degreeToRadian * 0.6);
+        var y2_end = cue.y + 700 * Math.sin(degree - degreeToRadian * 0.6);
 
 
         ctx.fillStyle = "#f6dfbd";
@@ -119,20 +121,20 @@ function draw_que() {
         ctx.lineTo(x2_start, y2_start);
         ctx.lineTo(x2_end, y2_end);
         ctx.lineTo(x1_end, y1_end);
-        ctx.isPointInPath(mouseX, mouseY) ? que.mouse = true : que.mouse = false;  //현재 경로에 포함되있는지 확인
+        ctx.isPointInPath(mouseX, mouseY) ? cue.mouse = true : cue.mouse = false;  //현재 경로에 포함되있는지 확인
         ctx.fill();
 
-        var x1_middle = que.x + 520 * Math.cos(degree + degreeToRadian * 0.6);
-        var x2_middle = que.x + 520 * Math.cos(degree - degreeToRadian * 0.6);
-        var x3_middle = que.x + 450 * Math.cos(degree);
-        var x4_middle = que.x + 680 * Math.cos(degree + degreeToRadian * 0.6);
-        var x5_middle = que.x + 680 * Math.cos(degree - degreeToRadian * 0.6);
+        var x1_middle = cue.x + 520 * Math.cos(degree + degreeToRadian * 0.6);
+        var x2_middle = cue.x + 520 * Math.cos(degree - degreeToRadian * 0.6);
+        var x3_middle = cue.x + 450 * Math.cos(degree);
+        var x4_middle = cue.x + 680 * Math.cos(degree + degreeToRadian * 0.6);
+        var x5_middle = cue.x + 680 * Math.cos(degree - degreeToRadian * 0.6);
 
-        var y1_middle = que.y + 520 * Math.sin(degree + degreeToRadian * 0.6);
-        var y2_middle = que.y + 520 * Math.sin(degree - degreeToRadian * 0.6);
-        var y3_middle = que.y + 450 * Math.sin(degree);
-        var y4_middle = que.y + 680 * Math.sin(degree + degreeToRadian * 0.6);
-        var y5_middle = que.y + 680 * Math.sin(degree - degreeToRadian * 0.6);
+        var y1_middle = cue.y + 520 * Math.sin(degree + degreeToRadian * 0.6);
+        var y2_middle = cue.y + 520 * Math.sin(degree - degreeToRadian * 0.6);
+        var y3_middle = cue.y + 450 * Math.sin(degree);
+        var y4_middle = cue.y + 680 * Math.sin(degree + degreeToRadian * 0.6);
+        var y5_middle = cue.y + 680 * Math.sin(degree - degreeToRadian * 0.6);
 
         ctx.fillStyle = "#1a1a18";
 
@@ -335,15 +337,14 @@ function CollideBalls(ball, ball2) {
     var lossball;
     audio2.play();
 
-    lossball = (nowPlayer+1) %2;
-    console.log(lossball);
+    lossball = (nowPlayer + 1) % 2;
 
-    if(ball == balls[nowPlayer])   {
-        if(ball2 == balls[lossball])
+    if (ball == balls[nowPlayer]) {
+        if (ball2 == balls[lossball])
             balls[nowPlayer].loss = true;
-        if(ball2 == balls[2])
+        if (ball2 == balls[2])
             balls[nowPlayer].red1 = true;
-        if(ball2 == balls[3])
+        if (ball2 == balls[3])
             balls[nowPlayer].red2 = true;
     }
 
@@ -381,10 +382,10 @@ Ball.prototype.TestImpact = function () {
 
 
 function HitBall() {
-    d_power = power*0.75;
+    d_power = power * 0.75;
 
-    var mouseDownX = que.x - d_power * Math.cos(que.degree * degreeToRadian);
-    var mouseDownY = que.y - d_power * Math.sin(que.degree * degreeToRadian);
+    var mouseDownX = cue.x - d_power * Math.cos(cue.degree * degreeToRadian);
+    var mouseDownY = cue.y - d_power * Math.sin(cue.degree * degreeToRadian);
 
     var dX = mouseDownX - balls[nowPlayer].x - 60;
     var dY = mouseDownY - balls[nowPlayer].y - 60;
@@ -401,12 +402,22 @@ function Dist(x1, y1, x2, y2) {
 
 
 (function init() {
-    for (var i = 0; i < points; i++) {
-        balls.push(new Ball(i));
+
+        for (var i = 0; i < points; i++) {
+            balls.push(new Ball(i));
+        }
+
+        for (var i = this.index + 1; i < points; i++) {
+            var ball = balls[i];
+            if (Dist(this.x, this.y, ball.x, ball.y) > this.r + ball.r) {
+                continue;
+            }
+        }
+
+        table = new Table();
+        cue = new Cue(balls[nowPlayer]);
     }
-    table = new Table();
-    que = new Que(balls[nowPlayer]);
-})();
+)();
 
 
 function draw() {
@@ -427,17 +438,16 @@ function draw() {
 
 
     if (stop) {//공이 모두 멈췄을때
-        que.x = balls[nowPlayer].x + 60;
-        que.y = balls[nowPlayer].y + 60;
-        que.visible = true;
+        cue.x = balls[nowPlayer].x + 60;
+        cue.y = balls[nowPlayer].y + 60;
+        cue.visible = true;
         hit.disabled = false;
         player.disabled = false;
         waite = true;
         stop = !stop;
 
-        if(shootend){
+        if (shootend) {
             getscore();
-            console.log(scoreinfo[nowPlayer]);
             shootend = false;
         }
     }
@@ -447,9 +457,9 @@ function draw() {
         player.disabled = true;
     }
 
-    draw_que();
+    draw_cue();
 
-    if (!que.visible) {
+    if (!cue.visible) {
         requestAnimFrame(draw);
     }
 }

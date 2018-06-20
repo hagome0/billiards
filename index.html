@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <title></title>
 </head>
-<body>
+<body style="margin: 0; height: 100%; overflow: hidden">
 <style>
     #canv{
         height: 30px;
@@ -57,20 +57,36 @@
         margin-left: 50px;
     }
 
+    #help_button {
+        float: left;
+        height: 30px;
+        margin-left: 5px;
+        margin-bottom: 10px;
+    }
+
+    #p2 {
+        margin-right: 50px;
+    }
+
+    #help_button {
+        margin-right: 10px;
+        width :40pt;
+    }
+
 </style>
 
 <div id="container">
 
+    <span id="p1" style="color:dodgerblue; margin-left: 0px;">Player1 : 0</span> <span style="color:red">vs</span> <span id="p2">Player2 : 0</span>
+
+    <button id="help_button">HELP</button>
     <button id="player_change">Player Change</button>
     <div id="myProgress">
         <div id="myBar">
             <div id="label">0%</div>
         </div>
     </div>
-
-    <button id="hit_button" style="width :100pt;">HIT BALL</button>
-    <span id="p1" style="color:dodgerblue"> Player1: 0</span> <span style="color:red">vs</span> <span id="p2">Player2: 0</span>
-
+    <button id="hit_button" style="width :60pt;">HIT BALL</button>
     <div id = "canv">
         <canvas>
         </canvas>
@@ -80,6 +96,7 @@
 
     <script src="example.js"></script>
     <script src="event.js"></script>
+    <script src = "https://unpkg.com/sweetalert/dist/sweetalert.min.js" > </script>
 
 </div>
 </body>

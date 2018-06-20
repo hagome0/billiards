@@ -30,27 +30,27 @@ function updateCanvas(e) {
     mouseX = e.pageX - pos.x;   // 마우스의 현재 좌표
     mouseY = e.pageY - pos.y;
 
-    nowdegree = 180 * Math.atan2(mouseX - que.x, mouseY - que.y) / Math.PI;
+    nowdegree = 180 * Math.atan2(mouseX - cue.x, mouseY - cue.y) / Math.PI;
 
-    if (que.mouse && !que.drag) {
+    if (cue.mouse && !cue.drag) {
         canvas.style.cursor = cursor_grab;
-    } else if (que.drag) {
+    } else if (cue.drag) {
         canvas.style.cursor = cursor_drag;
     } else {
         canvas.style.cursor = 'auto';
     }
-    if (que.drag) {
-        que.degree = -(nowdegree - 90);
+    if (cue.drag) {
+        cue.degree = -(nowdegree - 90);
     }
 
-    draw_que();
+    draw_cue();
 }
 
 function startDrag() {
-    if (que.mouse == true) {
-        que.drag = true;
-        distX = mouseX - que.x;
-        distY = mouseY - que.y;
+    if (cue.mouse == true) {
+        cue.drag = true;
+        distX = mouseX - cue.x;
+        distY = mouseY - cue.y;
 
 
     }
@@ -58,8 +58,8 @@ function startDrag() {
 
 function stopDrag() {
     one = 0.1;
-    if (que.drag == true) {
-        que.drag = false;
+    if (cue.drag == true) {
+        cue.drag = false;
     }
 }
 
@@ -90,66 +90,66 @@ function stopGauge() {
     elem.style.width = gauge + '%';
     document.getElementById("label").innerHTML = gauge.toFixed(1) + '%';
     hit.disabled = true;
-    que_execute();
+    cue_execute();
     waitkey = true;
 }
 
-function que_motion() {
+function cue_motion() {
     i++;
-    que.x = que.x + i * Math.cos(degreeToRadian * que.degree);
-    que.y = que.y + i * Math.sin(degreeToRadian * que.degree);
+    cue.x = cue.x + i * Math.cos(degreeToRadian * cue.degree);
+    cue.y = cue.y + i * Math.sin(degreeToRadian * cue.degree);
 
-    draw_que();
+    draw_cue();
     if (i >= 100) {
         clearInterval(TimerID);
-        que.x = tempX - 20 * Math.cos(degreeToRadian * que.degree);
-        que.y = tempY - 20 * Math.sin(degreeToRadian * que.degree);
-        draw_que();
+        cue.x = tempX - 20 * Math.cos(degreeToRadian * cue.degree);
+        cue.y = tempY - 20 * Math.sin(degreeToRadian * cue.degree);
+        draw_cue();
         audio1.play();
         i = 0;
         // setTimeout(function () {
-        que.visible = false;
+        cue.visible = false;
         HitBall();
         draw();
         // }, 500);
 
     }
 
-    que.x = tempX;
-    que.y = tempY;
+    cue.x = tempX;
+    cue.y = tempY;
 }
 
-function que_execute() {
+function cue_execute() {
 
-    tempX = que.x;
-    tempY = que.y;
+    tempX = cue.x;
+    tempY = cue.y;
 
-    TimerID = setInterval(que_motion, 10);
+    TimerID = setInterval(cue_motion, 10);
 }
 
 function draw_guide_1() {
     var gx = balls[nowPlayer].x + 60;
     var gy = balls[nowPlayer].y + 60;
 
-    var degree = que.degree * degreeToRadian;
+    var degree = cue.degree * degreeToRadian;
 
     var point_x = gx - 20 * Math.cos(degree);
     var point_y = gy - 20 * Math.sin(degree);
 
     //case left wall
     var guide_left_x = 60;
-    var guide_left_y = gy - Math.tan(degreeToRadian * que.degree) * (point_x - 60);
+    var guide_left_y = gy - Math.tan(degreeToRadian * cue.degree) * (point_x - 60);
 
     //case right wall
     var guide_right_x = 1140;
-    var guide_right_y = gy - Math.tan(degreeToRadian * que.degree) * (point_x - 1140);
+    var guide_right_y = gy - Math.tan(degreeToRadian * cue.degree) * (point_x - 1140);
 
     //case top wall
-    var guide_top_x = gx - Math.tan(degreeToRadian * (90 - que.degree)) * (point_y - 60);
+    var guide_top_x = gx - Math.tan(degreeToRadian * (90 - cue.degree)) * (point_y - 60);
     var guide_top_y = 60;
 
     //case bottom wall
-    var guide_bottom_x = gx - Math.tan(degreeToRadian * (90 - que.degree)) * (point_y - 610);
+    var guide_bottom_x = gx - Math.tan(degreeToRadian * (90 - cue.degree)) * (point_y - 610);
     var guide_bottom_y = 610;
 
 
@@ -196,10 +196,23 @@ function draw_guide_1() {
 }
 
 function playerChange() {
-        nowPlayer++;
-        nowPlayer = nowPlayer % 2;
+    p1 = document.getElementById("p1");
+    p2 = document.getElementById("p2");
+    nowPlayer++;
+    nowPlayer = nowPlayer % 2;
 
-        draw();
+    if (nowPlayer == 0) {
+        p2.style.color = "lightgrey";
+        p1.style.color = "dodgerblue";
+    }
+    else {
+        p2.style.color = "dodgerblue";
+        p1.style.color = "lightgrey";
+    }
+    p1.innerHTML = "Player1 : " + scoreinfo[0];
+    p2.innerHTML = "Player2 : " + scoreinfo[1];
+
+    draw();
 }
 
 var waitkey = true;
@@ -208,24 +221,24 @@ var waite = true;
 function keyEvent1(e) {
     player.disabled = true;
     if (waitkey) {
-        if (e.keyCode === 65) { //a
-            que.degree--;
+        if (e.keyCode === 38) { //up arrow
+            cue.degree--;
         }
-        else if (e.keyCode === 68) { //d
-            que.degree++;
-        }
-
-        else if (e.keyCode === 87) { //w
-            que.degree -= 3;
+        else if (e.keyCode === 40) { //down arrow
+            cue.degree++;
         }
 
-
-        else if (e.keyCode === 83) { //s
-            que.degree += 3;
+        else if (e.keyCode === 37) { //left arrow
+            cue.degree -= 3;
         }
 
 
-        else if (e.keyCode === 81) { //d
+        else if (e.keyCode === 39) { //right arrow
+            cue.degree += 3;
+        }
+
+
+        else if (e.keyCode === 67) { //c
             if (nowPlayer == 0) {
                 p2.style.color = "lightgrey";
                 p1.style.color = "dodgerblue";
@@ -239,7 +252,7 @@ function keyEvent1(e) {
             playerChange();
         }
 
-        else if (e.keyCode === 69 && waite) { //w
+        else if (e.keyCode === 32 && waite) { //w
             startGauge();
             waite = false;
         }
@@ -248,7 +261,7 @@ function keyEvent1(e) {
 }
 
 function keyEvent2(e) {
-    if (e.keyCode === 69 && waite) { //w
+    if (e.keyCode === 32 && waite) { //w
         stopGauge();
         waite = false;
         waitkey = true;
@@ -290,10 +303,10 @@ function getscore() {
     balls[nowPlayer].red2 = false;
     balls[nowPlayer].loss = false;
 
-    if(turnover){
+    if (turnover) {
         nowPlayer = ++nowPlayer % 2;// 차례변경
-        que.x = balls[nowPlayer].x + 60;
-        que.y = balls[nowPlayer].y + 60;
+        cue.x = balls[nowPlayer].x + 60;
+        cue.y = balls[nowPlayer].y + 60;
     }
     p1 = document.getElementById("p1");
     p2 = document.getElementById("p2");
@@ -319,4 +332,22 @@ function getscore() {
     }, 500)
 
 
+}
+
+function help_alert() {
+    swal(
+
+        "How to Play",
+        "Mouse Control\n"+
+        "1. You can adjust the angle by dragging and dropping the cue\n" +
+        "2. You can adjust the force by pressing the mouse on the hit button\n\n" +
+
+        "Key Control\n"+
+        "1. Left or Right arrow (←, →) : Detailed angle adjustment\n" +
+        "2. Up or Down arrow (↑, ↓) : Large angle adjustment\n" +
+        "3. Space Bar : same as pressing the hit button\n" +
+        "4. Key-C : Player Change",
+
+        "info"
+    );
 }
