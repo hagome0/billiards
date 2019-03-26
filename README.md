@@ -12,7 +12,7 @@
 
 ### gitpage를 이용한 hosting
 
-<https://hagome0.github.io/billiards>
+<https://hagome0.github.io/billiards/src/index.html>
 
 ### html Canvas teg를 이용한 실시간 렌더링
 
