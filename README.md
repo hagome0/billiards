@@ -14,9 +14,9 @@
 
 <https://hagome0.github.io/billiards>
 
-### html Canvas teg를 이용한 실시간 렌더링 
+### html Canvas teg를 이용한 실시간 렌더링
 
-![table](images\table.PNG)
+![table](https://github.com/hagome0/billiards/blob/master/images/table.PNG)
 
 
 
@@ -50,13 +50,13 @@
 
 ### 점수 시스템 도입
 
-![1553622034081](C:\Users\gktkd\AppData\Roaming\Typora\typora-user-images\1553622034081.png)
+![score](https://github.com/hagome0/billiards/blob/master/images/score.PNG)
 
 
 
 ### sweetalert을 이용한 Help Alert
 
-![table](images\sweetalert.PNG)
+![sweetalert](https://github.com/hagome0/billiards/blob/master/images/sweetalert.PNG)
 
 
 
